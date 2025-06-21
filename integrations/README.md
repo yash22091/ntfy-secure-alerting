@@ -1,83 +1,150 @@
-Wazuh Integration with NTFY
+Here's a clean and copy-ready version of the **Wazuh Integration README** in markdown format:
 
-This integration enables Wazuh to send real-time alerts to NTFY, allowing your SOC team or on-call engineers to receive push notifications on desktop or mobile via the ntfy app.
-Use Case
+---
 
-    Push security alerts from Wazuh (e.g., brute-force, malware detection) to subscribed users
+# 📡 Wazuh Integration with NTFY
 
-    Bypass heavy SIEM dashboards for critical alerts
+This lightweight integration allows Wazuh to trigger push notifications to `ntfy` over HTTP(S), sending real-time alerts to subscribed users — either through mobile apps or desktops.
 
-    Enable mobile-friendly alerting for faster response
+---
 
-Architecture
+## 🔔 Use Cases
 
-┌────────────┐      ┌────────────┐      ┌────────────────────┐      ┌────────────┐
-│  Wazuh     │ ──▶ │  NTFY.py   │ ──▶ │  NGINX Reverse Proxy │ ──▶ │   NTFY App  │
-│  Manager   │     │ Integration│     │  (SSL + Auth + ACL) │     │ (Mobile/Web)│
-└────────────┘      └────────────┘      └────────────────────┘      └────────────┘
+* Receive **critical security alerts** on your phone (e.g., SSH brute-force, file integrity violations)
+* Complement Wazuh’s default email or log-based alerting
+* Enable **mobile-first incident response** for on-call analysts
+* Build a cost-effective push alert pipeline without external services
 
-Files
+---
 
-Place this script on your Wazuh manager server:
+## 🔧 Architecture
 
-/var/ossec/integrations/custom-ntfy.py
+```text
+┌────────────┐      ┌───────────────┐      ┌────────────────────┐      ┌────────────┐
+│  Wazuh     │ ──▶ │ custom-ntfy.py │ ──▶ │  NGINX Reverse Proxy│ ──▶ │   NTFY App │
+│  Manager   │     │ (Python Script)│     │  (SSL + Auth + ACL)│     │ (Web/Mobile)│
+└────────────┘      └───────────────┘      └────────────────────┘      └────────────┘
+```
 
-Ensure it is executable:
+* **Wazuh** triggers the integration when matching alerts are raised
+* **custom-ntfy.py** pushes formatted alert data to NTFY using HTTP Basic Auth
+* **NGINX** terminates TLS and authenticates access
+* **NTFY App** (mobile or browser) instantly receives the alert on the subscribed topic
 
-chmod +x /var/ossec/integrations/custom-ntfy.py
+---
 
-Dependencies
+## 📂 Files in Repo
 
-Install required Python package on Wazuh:
+```bash
+integrations/
+└── custom-ntfy.py        # Integration script for Wazuh
+ntfy.sh                   # Setup script for NTFY + SSL + Auth
+```
 
-pip install requests
+---
 
-Configuration
+## ⚙️ Setup Instructions
 
-Update your /var/ossec/etc/ossec.conf with:
+> These steps assume you have a working NTFY instance secured via `ntfy.sh` from this repo.
 
+### 1. Clone and Deploy the Script on Wazuh Server
+
+```bash
+git clone https://github.com/yash22091/ntfy-secure-alerting.git
+sudo cp ntfy-secure-alerting/integrations/custom-ntfy.py /var/ossec/integrations/
+sudo chmod +x /var/ossec/integrations/custom-ntfy.py
+```
+
+### 2. Install Python Requirements
+
+```bash
+sudo apt install python3-pip -y
+pip3 install requests
+```
+
+### 3. Configure Wazuh
+
+Edit `/var/ossec/etc/ossec.conf`:
+
+```xml
 <integration>
   <name>custom-ntfy</name>
-  <command>/var/ossec/integrations/custom-ntfy.py</command>
+  <command>custom-ntfy.py</command>
   <alert_format>json</alert_format>
   <rule_id>554,100001</rule_id>
   <level>10</level>
   <group>authentication_failures</group>
 </integration>
+```
 
-Restart Wazuh manager:
+You can customize:
 
-systemctl restart wazuh-manager
+* `rule_id`: Target specific Wazuh rule IDs
+* `group`: Trigger only for certain alert types
+* `level`: Minimum severity level to trigger
 
-Mobile Setup (Optional)
+### 4. Restart Wazuh Manager
 
-    Install ntfy app on your mobile device.
+```bash
+sudo systemctl restart wazuh-manager
+```
 
-    Subscribe to the same topic used in custom-ntfy.py (e.g., alerts).
+---
 
-    Ensure your NGINX endpoint is accessible from mobile with Basic Auth.
+## 📲 Mobile Notification Flow
 
-Test It
+1. Install the [ntfy app](https://ntfy.sh/app) on Android or iOS
+2. Subscribe to the topic (e.g., `alerts`)
+3. When a Wazuh alert matches, your phone receives the push instantly
 
-Manually trigger a test alert:
+This removes the need to monitor dashboards or email alerts constantly.
 
-/var/ossec/integrations/custom-ntfy.py /tmp/sample_alert.json
+---
 
-Or simulate a real alert by raising a rule match in Wazuh.
-Security Notes
+## 📦 Example Alert Notification
 
-    Auth credentials and topic settings are defined inside custom-ntfy.py
+```markdown
+**Host**: myserver-01
+**Rule ID**: 554 • **Level**: 10
+**Description**: SSH brute-force attack detected
+```
 
-    Only allow write access to that topic via NTFY access control
+---
 
-    NGINX provides HTTPS + basic auth frontend
+## ✅ Requirements
 
-    All messages are UTF-8 and Markdown-safe
+* Wazuh 4.x+
+* Python 3 with `requests` installed
+* Your NTFY server must be publicly reachable with HTTPS & basic auth
 
-Integration Example
+---
 
-From a cloned repo (separate from ntfy server):
+## 🧩 Recommended Improvements
 
-git clone https://github.com/your-org/ntfy-secure-alerting.git
-cp ntfy-secure-alerting/integrations/custom-ntfy.py /var/ossec/integrations/
+* Subscribe different teams to different topics
+* Add a filter to `custom-ntfy.py` to check alert source or geolocation
+* Use multiple `group` parameters for flexible routing
+* Integrate with Suricata or Falco in addition to Wazuh
 
+---
+
+## 🔐 Security Considerations
+
+* Passwords are embedded in `custom-ntfy.py`. Use environment variables or secrets management in production
+* Only HTTPS should be used
+* NGINX + htpasswd adds protection against unauthorized posting/viewing
+
+---
+
+## 📘 Related
+
+* [NTFY Official Docs](https://ntfy.sh/docs/)
+* [NTFY Android App](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+* [Project GitHub Repo](https://github.com/yash22091/ntfy-secure-alerting)
+
+---
+
+Maintained by: [@yash22091](https://github.com/yash22091)
+License: MIT
+
+Let me know if you’d like the version for `ntfy.sh` setup or mobile deployment walkthrough too.
