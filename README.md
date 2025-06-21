@@ -1,14 +1,15 @@
 ---
+NTFY Secure Alerting
 
-# NTFY Secure Alerting
+A hardened, self-hosted real-time alerting platform using NTFY, powered by:
 
-A hardened, self-hosted **real-time alerting platform** using [NTFY], powered by:
+    HTTPS + Auth via NGINX reverse proxy
 
-* **HTTPS + Auth** via NGINX reverse proxy
-* **Role-based ACLs**
-* **Wazuh + SIEM integration**
-* **Push to mobile via NTFY app**
+    Role-based ACLs
 
+    Wazuh + SIEM integration
+
+    Push to mobile via NTFY app
 ---
 
 ## What Does This Provide?
