@@ -1,14 +1,10 @@
-Here's a clean and copy-ready version of the **Wazuh Integration README** in markdown format:
-
----
-
-# 📡 Wazuh Integration with NTFY
+# Wazuh Integration with NTFY
 
 This lightweight integration allows Wazuh to trigger push notifications to `ntfy` over HTTP(S), sending real-time alerts to subscribed users — either through mobile apps or desktops.
 
 ---
 
-## 🔔 Use Cases
+## Use Cases
 
 * Receive **critical security alerts** on your phone (e.g., SSH brute-force, file integrity violations)
 * Complement Wazuh’s default email or log-based alerting
@@ -17,7 +13,7 @@ This lightweight integration allows Wazuh to trigger push notifications to `ntfy
 
 ---
 
-## 🔧 Architecture
+## Architecture
 
 ```text
 ┌────────────┐      ┌───────────────┐      ┌────────────────────┐      ┌────────────┐
@@ -33,7 +29,7 @@ This lightweight integration allows Wazuh to trigger push notifications to `ntfy
 
 ---
 
-## 📂 Files in Repo
+## Files in Repo
 
 ```bash
 integrations/
@@ -43,7 +39,7 @@ ntfy.sh                   # Setup script for NTFY + SSL + Auth
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 > These steps assume you have a working NTFY instance secured via `ntfy.sh` from this repo.
 
@@ -91,7 +87,7 @@ sudo systemctl restart wazuh-manager
 
 ---
 
-## 📲 Mobile Notification Flow
+## Mobile Notification Flow
 
 1. Install the [ntfy app](https://ntfy.sh/app) on Android or iOS
 2. Subscribe to the topic (e.g., `alerts`)
@@ -101,7 +97,7 @@ This removes the need to monitor dashboards or email alerts constantly.
 
 ---
 
-## 📦 Example Alert Notification
+## Example Alert Notification
 
 ```markdown
 **Host**: myserver-01
@@ -111,7 +107,7 @@ This removes the need to monitor dashboards or email alerts constantly.
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 * Wazuh 4.x+
 * Python 3 with `requests` installed
@@ -119,7 +115,7 @@ This removes the need to monitor dashboards or email alerts constantly.
 
 ---
 
-## 🧩 Recommended Improvements
+## Recommended Improvements
 
 * Subscribe different teams to different topics
 * Add a filter to `custom-ntfy.py` to check alert source or geolocation
@@ -128,7 +124,7 @@ This removes the need to monitor dashboards or email alerts constantly.
 
 ---
 
-## 🔐 Security Considerations
+## Security Considerations
 
 * Passwords are embedded in `custom-ntfy.py`. Use environment variables or secrets management in production
 * Only HTTPS should be used
@@ -136,7 +132,7 @@ This removes the need to monitor dashboards or email alerts constantly.
 
 ---
 
-## 📘 Related
+## Related
 
 * [NTFY Official Docs](https://ntfy.sh/docs/)
 * [NTFY Android App](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
