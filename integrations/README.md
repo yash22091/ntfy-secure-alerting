@@ -64,8 +64,7 @@ Edit `/var/ossec/etc/ossec.conf`:
 
 ```xml
 <integration>
-  <name>custom-ntfy</name>
-  <command>custom-ntfy.py</command>
+  <name>custom-ntfy.py</name>
   <alert_format>json</alert_format>
   <rule_id>554,100001</rule_id>
   <level>10</level>
