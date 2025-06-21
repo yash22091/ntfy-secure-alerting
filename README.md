@@ -1,14 +1,12 @@
-NTFY Secure Alerting
+# NTFY Secure Alerting
 
-A hardened, self-hosted real-time alerting platform using NTFY, powered by:
+A hardened, self-hosted **real-time alerting platform** using [NTFY](https://ntfy.sh/), powered by:
 
-    HTTPS + Auth via NGINX reverse proxy
+* **HTTPS + Auth** via NGINX reverse proxy
+* **Role-based ACLs**
+* **Wazuh + SIEM integration**
+* **Push to mobile via NTFY app**
 
-    Role-based ACLs
-
-    Wazuh + SIEM integration
-
-    Push to mobile via NTFY app
 ---
 
 ## What Does This Provide?
@@ -107,8 +105,7 @@ pip3 install requests
 
 ```xml
 <integration>
-  <name>custom-ntfy</name>
-  <command>custom-ntfy.py</command>
+  <name>custom-ntfy.py</name>
   <alert_format>json</alert_format>
   <level>10</level>
   <group>authentication_failures</group>
@@ -204,4 +201,3 @@ Feel free to open issues for bugs or suggestions.
 MIT License © [yash22091](https://github.com/yash22091)
 
 ---
-
