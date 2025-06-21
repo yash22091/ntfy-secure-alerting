@@ -1,4 +1,3 @@
----
 NTFY Secure Alerting
 
 A hardened, self-hosted real-time alerting platform using NTFY, powered by:
