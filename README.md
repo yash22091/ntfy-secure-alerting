@@ -2,7 +2,7 @@
 
 # NTFY Secure Alerting
 
-A hardened, self-hosted **real-time alerting platform** using [NTFY](https://ntfy.sh/), powered by:
+A hardened, self-hosted **real-time alerting platform** using [NTFY], powered by:
 
 * **HTTPS + Auth** via NGINX reverse proxy
 * **Role-based ACLs**
