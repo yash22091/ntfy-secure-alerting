@@ -1,0 +1,1 @@
+# ntfy-secure-alerting
