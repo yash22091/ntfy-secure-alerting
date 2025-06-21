@@ -3,13 +3,10 @@
 ## Get Started
 The script ntfy.sh automates installation and secure configuration of NTFY behind NGINX, including:
 
-HTTPS setup (via OpenSSL or Let's Encrypt)
-
-htpasswd authentication
-
-Role-based access per topic
-
-SQLite access control
+- HTTPS setup (via OpenSSL or Let's Encrypt)
+- htpasswd authentication
+- Role-based access per topic
+- SQLite access control
 
 Usage
 
