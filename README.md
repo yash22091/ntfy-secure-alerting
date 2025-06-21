@@ -13,6 +13,7 @@ Usage
 # Clone the repository
 git clone https://github.com/your-org/ntfy-secure-alerting.git
 cd ntfy-secure-alerting
+chmod +x ntfy.sh
 
 # Install all components
 sudo ./ntfy.sh install       # First-time setup
